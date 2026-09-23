@@ -1,0 +1,93 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="text-center mt-4 mb-5">
+    <h1 class="display-4 fw-bold text-primary">Science teams app</h1>
+    <p class="lead">Manage roles, tasks, and activity history</p>
+</div>
+
+<div class="row text-center">
+
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-info shadow">
+            <div class="card-header fw-bold">All teams</div>
+            <div class="card-body">
+                <h1 class="card-title display-3">@ViewBag.TotalTeams</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-secondary shadow">
+            <div class="card-header fw-bold">All tasks</div>
+            <div class="card-body">
+                <h1 class="card-title display-3">@ViewBag.TotalTasks</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-warning shadow">
+            <div class="card-header fw-bold text-dark">Active tasks</div>
+            <div class="card-body text-dark">
+                <h1 class="card-title display-3">@ViewBag.ActiveTasks</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-success shadow">
+            <div class="card-header fw-bold">Done</div>
+            <div class="card-body">
+                <h1 class="card-title display-3">@ViewBag.CompletedTasks</h1>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<hr class="mt-5 mb-5" />
+
+<div class="row">
+    <div class="col-md-6 text-center">
+        <a asp-controller="Teams" asp-action="Index" class="btn btn-outline-primary btn-lg m-2 w-75">
+            👥 Teams management
+        </a>
+    </div>
+    <div class="col-md-6 text-center">
+        <a asp-controller="TaskItems" asp-action="Index" class="btn btn-outline-primary btn-lg m-2 w-75">
+            📋 Tasks management
+        </a>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<hr class="mt-5 mb-5" />
+
+<div class="row mb-5">
+    <div class="col-md-6 offset-md-3 text-center">
+        <h4 class="fw-bold mb-3">Съотношение на задачите</h4>
+        <canvas id="tasksChart" width="400" height="400" style="max-height: 300px;"></canvas>
+    </div>
+</div>
+
+<script>
+    var ctx = document.getElementById('tasksChart').getContext('2d');
+    var tasksChart = new Chart(ctx, {
+        type: 'doughnut', // Тип на графиката
+        data: {
+            labels: ['Активни задачи', 'Завършени задачи'],
+            datasets: [{
+                data: [@ViewBag.ActiveTasks, @ViewBag.CompletedTasks], // Взима данните от бекенда
+                backgroundColor: ['#ffc107', '#28a745'], // Жълто и Зелено
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+</script>

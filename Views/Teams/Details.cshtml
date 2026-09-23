@@ -1,0 +1,45 @@
+﻿@model ScienceTeamsApp.Models.Team
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <hr />
+    <h4>Tasks for this team</h4>
+
+    @if (Model.Tasks != null && Model.Tasks.Any())
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Deadline</th>
+                    <th>Assigned to</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var task in Model.Tasks)
+                {
+                    <tr>
+                        <td>@task.Title</td>
+                        <td>@task.Status</td>
+                        <td>@task.Deadline.ToString("dd.MM.yyyy")</td>
+                        <td>@(task.AssignedUser != null ? task.AssignedUser.UserName : "No user has been assigned")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No tasks for this team yet.</p>
+    }
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
